@@ -1,0 +1,13 @@
+<p>This is the partial for people.</p>
+
+<div class="container">
+  <div class="row" ng-repeat="person in people" style="margin-top:20px;">
+    <div class="col .col-lg-" style="background: #b6e1fc;height:80px;">
+      <h4 style="color:#1E90FF">{{person.username}}</h4>
+      <button class="btn btn-success" ng-if="person.follows" style="float:right;">Following</button>
+      <button class="btn btn-primary" ng-if="!person.follows" style="float:right;" ng-click="follow(person._id)">Follow</button>
+    </div>
+    <div>
+	</div>
+  </div>
+ </div>

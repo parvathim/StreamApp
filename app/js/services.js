@@ -1,0 +1,133 @@
+angular.module('myAPP.services', [])
+
+.factory('People', function($rootScope, $http, $resource, apiUrls) {
+return {
+    getAll: function(userid) {
+      return $resource( apiUrls.people+ userid).get().$promise;
+    },
+    follow: function(userid, selfid) {
+      return $http.post( apiUrls.follow+ userid +"/" + selfid);
+    }
+   }
+})
+
+.factory('Feed', function($rootScope, $http, $resource, apiUrls) {
+return {
+    createFeed: function(userid,data) {
+      return $resource(apiUrls.activity + userid).save(data).$promise;
+    },
+   getFlatFeed: function(userid) {
+      return $resource(apiUrls.flat + userid).get().$promise;
+    },
+   getAggFeed: function(userid) {
+      return $resource(apiUrls.aggfeed + userid).get().$promise;
+    },
+   getNotificationFeed: function(userid,data) {
+	console.log(data);
+      return $resource(apiUrls.notiffeed + userid).save(data).$promise;
+    },
+   }
+})
+
+ 
+
+.factory('Session', function($rootScope, $http, $resource, apiUrls) {
+	return $resource(apiUrls.login);
+})
+
+
+.factory('Authenticate', function($rootScope, $location, Session) {
+  
+  return {
+    login: function(user) {
+	//console.log('Authenticate' + user);
+      return Session.save({
+        username: user.username,
+        password: user.password
+      }).$promise;
+    },
+
+    logout: function () {
+                return Session.delete().$promise;
+            },
+
+    confirmLoggedIn: function () {
+              if ($rootScope.loggedIn == false) {
+                 $location.path('/login');
+              }
+	      else
+	      {
+	      	console.log("Coming here " + $rootScope.loggedIn);
+	      }
+            }
+    }
+})
+
+.factory('UserHistory', function($rootScope) { 
+
+  var userHistory = {};
+
+  return {
+    login: function(userId,username) {
+        window.localStorage['currentUser'] = userId;
+        window.localStorage['currentUserName'] = username;
+        userHistory = {'viewTimeStamp': {'allFeeds': 1000},'loginStatus': true};
+        if(window.localStorage[userId]) {
+            userHistory = JSON.parse(window.localStorage[userId]);
+            userHistory['loginStatus'] = true;
+        }
+        window.localStorage[userId] = JSON.stringify(userHistory);
+        $rootScope.loggedIn = true;  
+    },
+    logout: function (userId) {
+          userHistory = JSON.parse(window.localStorage[userId]);
+          userHistory['loginStatus'] = false;
+          window.localStorage[userId] = JSON.stringify(userHistory);
+          window.localStorage.removeItem('currentUser');
+
+          $rootScope.loggedIn = false;
+    },
+    get: function (id) {
+        return JSON.parse(window.localStorage[id]);
+    },
+    getLastViewTime: function(id, key) {
+        var lastViewTime; 
+
+        userHistory = JSON.parse(window.localStorage[id]);
+        if (key == 'allFeeds')
+            lastViewTime =  new Date(userHistory.viewTimeStamp.allFeeds);
+        else 
+            lastViewTime =  new Date(userHistory.viewTimeStamp[key] ? userHistory.viewTimeStamp[key] : 1000);
+
+        return lastViewTime;
+    },
+    updateViewTimeStamp: function(id, key) {
+        userHistory = JSON.parse(window.localStorage[id]);
+        if (key == 'allFeeds')
+            userHistory.viewTimeStamp.allFeeds = new Date();
+        else 
+            userHistory.viewTimeStamp[key] = new Date();
+        window.localStorage[id] = JSON.stringify(userHistory);
+    },
+    retrieveLogin: function () {
+        $rootScope.loggedIn = false;
+        if (window.localStorage['currentUser']) {
+            if (window.localStorage[window.localStorage['currentUser']]) {
+                userHistory = JSON.parse(window.localStorage[window.localStorage['currentUser']]);
+                $rootScope.loggedIn = userHistory['loginStatus'];
+            } else {
+                $rootScope.loggedIn = false;
+            }
+        } else {
+            $rootScope.loggedIn = false;
+        }
+    },
+    setLoginStatus: function (id, status) {
+        userHistory = JSON.parse(window.localStorage[id]);
+        userHistory['loginStatus'] = status;
+        window.localStorage[id] = JSON.stringify(userHistory);
+    }
+  }
+})
+
+

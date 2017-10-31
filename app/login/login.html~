@@ -1,0 +1,34 @@
+
+<div class="jumbotron">
+<br>
+<br>
+<br>
+<br>
+<br>
+      <form name="loginForm" ng-submit="loginApp(loginForm)" novalidate="novalidate">
+
+    <div class="container">
+      <div class="row justify-content-center align-items-center" >
+        <div class="form-group">
+	    <input type="text" class="form-control" id="usr" ng-model="user.username"  placeholder="Username" required="required">
+		<br>
+	    <input type="password" ng-model="user.password" class="form-control" id="pwd" placeholder="Password" required="required" >
+		<br>
+  	<div class="form-group">
+          <button type="submit" ng-disabled="loginForm.$invalid" class="form-control btn btn-primary">
+            <b>LOGIN</b>
+          </button>
+        </div>
+
+		<!--	<a class="form-control btn btn-primary" role="button" href="/index">Login</a>-->
+
+          <h6 class="mt-5">Not a member</h6>	
+			<a class="form-control btn btn-primary" role="button" href="/index">Signup</a>
+        </div>
+      </div>
+    </div>
+	</form>
+<br>
+<br>
+<br>
+</div>

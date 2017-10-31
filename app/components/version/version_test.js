@@ -1,0 +1,11 @@
+'use strict';
+
+describe('myAPP.version module', function() {
+  beforeEach(module('myAPP.version'));
+
+  describe('version service', function() {
+    it('should return current version', inject(function(version) {
+      expect(version).toEqual('0.1');
+    }));
+  });
+});

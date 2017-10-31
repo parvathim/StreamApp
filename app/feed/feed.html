@@ -1,0 +1,29 @@
+<br>
+  <form name="tweetForm" ng-submit="tweettext(loginForm)" novalidate="novalidate">
+ <div class="container">
+      <div class="row justify-content-center" >
+      <div class="col .col-lg-" >
+<div class="form-group">
+  <!--<label for="usr">Name:</label>-->
+  <input type="text" class="form-control" id="msg" ng-model="tweet.message" placeholder="tweet" required="required">
+</div>
+	</div>
+<div class="form-group">
+          <button type="submit" ng-disabled="loginForm.$invalid" class="form-control btn btn-primary">
+            <b>SEND</b>
+          </button>
+        </div>
+</div>
+
+  <div class="row" ng-repeat="feed in feeds track by feed.id" style="margin-top:20px;">
+    <div class="col .col-lg-" style="background: #b6e1fc;height:80px;">
+	<label hidden>{{feed.id}}</label>
+      <h4 style="color:#1E90FF">{{feed.text}}</h4>
+      <h6 style="color:#1E90FF;float:right;">{{feed.user}}</h6>
+    </div>
+    <div>
+	</div>
+  </div>
+</div>
+</form>
+

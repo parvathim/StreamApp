@@ -1,0 +1,21 @@
+<br>
+  <form name="tweetForm" ng-submit="tweettext(loginForm)" novalidate="novalidate">
+ <div class="container">
+
+  <div ng-repeat="feedgroup in feeds" style="margin-top:20px;">
+	<div style="background: #CD5C5C;width:2000px;">
+	      <h4 style="color:#1E90FF">{{feedgroup.type}}</h4>
+		<div class="row" ng-repeat="feed in feedgroup.activities track by feed.id" style="margin-top:20px;">
+		    <div class="col .col-lg-" style="background: #b6e1fc;height:80px;">
+			<label hidden>{{feed.id}}</label>
+		      <h5 style="color:#1E90FF" ng-show="!(feedgroup.type=='Follow')">{{feed.text}}</h4>
+		      <h6 style="color:#1E90FF;float:right;" ng-show="!(feedgroup.type=='Follow')">{{feed.user}}</h6>
+		      <h6 style="color:#1E90FF;" ng-show="(feedgroup.type=='Follow')">{{feed.username}}</h6>
+			
+		    </div>
+	       </div>	
+	</div>
+  </div>
+</div>
+</form>
+

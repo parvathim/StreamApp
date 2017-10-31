@@ -1,0 +1,8 @@
+'use strict';
+
+angular.module('myAPP.version', [
+  'streamApp.version.interpolate-filter',
+  'streamApp.version.version-directive'
+])
+
+.value('version', '0.1');
